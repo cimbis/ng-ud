@@ -10,7 +10,7 @@ import * as fromRecipe from '../store/recipe.reducers';
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
-  styleUrls: ['./recipe-edit.component.css']
+  styleUrls: [ './recipe-edit.component.css' ]
 })
 export class RecipeEditComponent implements OnInit {
   id: number;
@@ -26,8 +26,8 @@ export class RecipeEditComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
+          this.id = +params[ 'id' ];
+          this.editMode = params[ 'id' ] != null;
           this.initForm();
         }
       );
@@ -67,25 +67,25 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate([ '../' ], { relativeTo: this.route });
   }
 
   private initForm() {
     let recipeName = '';
     let recipeImagePath = '';
     let recipeDescription = '';
-    let recipeIngredients = new FormArray([]);
+    const recipeIngredients = new FormArray([]);
 
     if (this.editMode) {
       this.store.select('recipes')
         .pipe(take(1))
         .subscribe((recipeState: fromRecipe.State) => {
-          const recipe = recipeState.recipes[this.id];
+          const recipe = recipeState.recipes[ this.id ];
           recipeName = recipe.name;
           recipeImagePath = recipe.imagePath;
           recipeDescription = recipe.description;
-          if (recipe['ingredients']) {
-            for (let ingredient of recipe.ingredients) {
+          if (recipe[ 'ingredients' ]) {
+            for (const ingredient of recipe.ingredients) {
               recipeIngredients.push(
                 new FormGroup({
                   'name': new FormControl(ingredient.name, Validators.required),
